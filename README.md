@@ -12,6 +12,6 @@ This saves your Vagrant ssh config to a file for easier access later.
 `server: https://10.0.100.11:6443` to `server: https://k8s0:16443` (this is necessary to match the cert used and forwarded port).  
 4. Next, modify your local /etc/hosts adding k8s0 to the localhost line.  
 5. Then run the following to load the config:
-`export KUBECONFIG=~/.kube/vagrant.conf`
+`export KUBECONFIG=~/.kube/vagrant.config`
 
 You can now run native kubectl commands (assuming you have them installed - if not `brew install kubectl`) interacting with your multi-node cluster!

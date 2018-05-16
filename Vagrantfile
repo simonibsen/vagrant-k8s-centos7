@@ -2,13 +2,15 @@ $masterscript = <<-SCRIPT
 setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 swapoff -a
-echo [kubernetes] > /etc/yum.repos.d/kubernetes.repo
-echo name=Kubernetes >> /etc/yum.repos.d/kubernetes.repo
-echo baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 >> /etc/yum.repos.d/kubernetes.repo
-echo enabled=1 >> /etc/yum.repos.d/kubernetes.repo
-echo gpgcheck=1 >> /etc/yum.repos.d/kubernetes.repo
-echo repo_gpgcheck=1 >> /etc/yum.repos.d/kubernetes.repo
-echo gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg >> /etc/yum.repos.d/kubernetes.repo
+cat > /etc/yum.repos.d/kubernetes.repo <<EOF
+[kubernetes] 
+name=Kubernetes 
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 
+enabled=1 
+gpgcheck=1 
+repo_gpgcheck=1 
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg 
+EOF
 yum install kubectl kubeadm kubelet docker lsof nc nmap -y
 systemctl restart docker && systemctl enable docker
 systemctl  restart kubelet && systemctl enable kubelet
@@ -30,13 +32,15 @@ $nodescript = <<-SCRIPT
 setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 swapoff -a
-echo [kubernetes] > /etc/yum.repos.d/kubernetes.repo
-echo name=Kubernetes >> /etc/yum.repos.d/kubernetes.repo
-echo baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 >> /etc/yum.repos.d/kubernetes.repo
-echo enabled=1 >> /etc/yum.repos.d/kubernetes.repo
-echo gpgcheck=1 >> /etc/yum.repos.d/kubernetes.repo
-echo repo_gpgcheck=1 >> /etc/yum.repos.d/kubernetes.repo
-echo gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg >> /etc/yum.repos.d/kubernetes.repo
+cat > /etc/yum.repos.d/kubernetes.repo <<EOF
+[kubernetes]
+name=Kubernetes 
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 
+enabled=1 
+gpgcheck=1 
+repo_gpgcheck=1 
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg 
+EOF
 yum  install kubectl kubeadm kubelet docker lsof -y
 echo "swapoff -a" >> /etc/rc.d/rc.local
 echo "echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables" >> /etc/rc.d/rc.local
